@@ -72,11 +72,11 @@ namespace SporeModUtils {
 				!PlanetHasCompletePlantEcosystem(planet)) {
 				ResourceKey terrainScript = planet->GetGeneratedTerrainKey();
 				eastl::vector<ResourceKey> scriptPlants;
-				CALL(Address(ModAPI::ChooseAddress(0x0, 0x00BAD210)), void, Args(Simulator::cStarManager*, ResourceKey*, eastl::vector<ResourceKey>*), //TODO CHANGE THE ADDRESS
+				CALL(Address(ModAPI::ChooseAddress(0x00BABFF0, 0x00BAD210)), void, Args(Simulator::cStarManager*, ResourceKey*, eastl::vector<ResourceKey>*),
 					Args(Simulator::cStarManager::Get(), &terrainScript, &scriptPlants));
 
 				int planetTerrascore = static_cast<int>(planet->mType) - 2;
-				CALL(Address(ModAPI::ChooseAddress(0x0, 0x00BAC9C0)), void, Args(Simulator::cStarManager*, eastl::vector<ResourceKey>*, int, int, int, int, eastl::vector<ResourceKey>*), //TODO CHANGE THE ADDRESS
+				CALL(Address(ModAPI::ChooseAddress(0x00BAB7A0, 0x00BAC9C0)), void, Args(Simulator::cStarManager*, eastl::vector<ResourceKey>*, int, int, int, int, eastl::vector<ResourceKey>*),
 					Args(Simulator::cStarManager::Get(), &scriptPlants, planetTerrascore, planetTerrascore - 1, 3, 0, &planet->mPlantSpecies));
 			}
 		}
@@ -88,7 +88,7 @@ namespace SporeModUtils {
 
 				int planetTerrascore = static_cast<int>(planet->mType) - 2;
 				eastl::vector<ResourceKey> priorityCreatures; // empty, we don't care about specific creatures.
-				CALL(Address(ModAPI::ChooseAddress(0x0, 0x00BACE60)), void, Args(Simulator::cStarManager*, eastl::vector<ResourceKey>*, int, int, int, int, eastl::vector<ResourceKey>*), //TODO CHANGE THE ADDRESS
+				CALL(Address(ModAPI::ChooseAddress(0x00BABC40, 0x00BACE60)), void, Args(Simulator::cStarManager*, eastl::vector<ResourceKey>*, int, int, int, int, eastl::vector<ResourceKey>*),
 					Args(Simulator::cStarManager::Get(), &priorityCreatures, planetTerrascore, planetTerrascore - 1, 2, 1, &planet->mAnimalSpecies));
 			}
 		}
