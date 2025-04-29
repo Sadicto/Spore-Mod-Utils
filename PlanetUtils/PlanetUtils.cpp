@@ -1,0 +1,104 @@
+#include "stdafx.h"
+#include "PlanetUtils.h"
+namespace SporeModUtils {
+	namespace PlanetUtils {
+		void DeleteTribeFromStar(Simulator::cStarRecord* star) {
+			star->mTechLevel = Simulator::TechLevel::Creature;
+			star->mCitizenSpeciesKey.instanceID = 0;
+			star->mCitizenSpeciesKey.typeID = 0;
+			star->mCitizenSpeciesKey.groupID = 0;
+			star->mpSpeciesProfile = NULL;
+
+			//find the planet with the tribe and edit it .
+			for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+				if (planet->GetTechLevel() == Simulator::TechLevel::Tribe) {
+					planet->mTechLevel = Simulator::TechLevel::Creature;
+					planet->mTribeData.clear();
+				}
+				break;
+			}
+		}
+
+		void DeleteCivFromStar(Simulator::cStarRecord* star) {
+			star->mTechLevel = Simulator::TechLevel::Creature;
+			star->mCitizenSpeciesKey.instanceID = 0;
+			star->mCitizenSpeciesKey.typeID = 0;
+			star->mCitizenSpeciesKey.groupID = 0;
+			star->mpSpeciesProfile = NULL;
+
+			//find the planet with the civ and edit it. 
+			for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+				if (planet->GetTechLevel() == Simulator::TechLevel::Civilization) {
+					planet->mTechLevel = Simulator::TechLevel::Creature;
+					planet->mCivData.clear();
+				}
+				break;
+			}
+		}
+		Simulator::SolarSystemOrbitTemperature GetPlanetOrbitTemperature(Simulator::cPlanetRecord* planet) {
+			if (planet->mFlags & Simulator::PlanetFlags::kPlanetFlagBlueOrbit) {
+				return Simulator::SolarSystemOrbitTemperature::Cold;
+			}
+			else if (planet->mFlags & Simulator::PlanetFlags::kPlanetFlagRedOrbit) {
+				return Simulator::SolarSystemOrbitTemperature::Hot;
+			}
+			else {
+				return Simulator::SolarSystemOrbitTemperature::Normal;
+			}
+		}
+		bool PlanetHasCompletePlantEcosystem(Simulator::cPlanetRecord* planet) {
+			Simulator::PlanetType planetType = planet->mType;
+			int plantSpeciesNum = planet->mPlantSpecies.size();
+			return (planetType == Simulator::PlanetType::T0) ||
+				(planetType == Simulator::PlanetType::T1 && plantSpeciesNum == 3) ||
+				(planetType == Simulator::PlanetType::T2 && plantSpeciesNum == 6) ||
+				(planetType == Simulator::PlanetType::T3 && plantSpeciesNum == 9);
+		}
+		bool PlanetHasCompleteAnimalEcosystem(Simulator::cPlanetRecord* planet) {
+			Simulator::PlanetType planetType = planet->mType;
+			int animalSpeciesNum = planet->mAnimalSpecies.size();
+			return (planetType == Simulator::PlanetType::T0) ||
+				(planetType == Simulator::PlanetType::T1 && animalSpeciesNum == 3) ||
+				(planetType == Simulator::PlanetType::T2 && animalSpeciesNum == 6) ||
+				(planetType == Simulator::PlanetType::T3 && animalSpeciesNum == 9);
+		}
+		bool PlanetHasCompleteEcosystem(Simulator::cPlanetRecord* planet) {
+			return PlanetHasCompletePlantEcosystem(planet) && PlanetHasCompleteAnimalEcosystem(planet);
+		}
+		void FillPlanetPlants(Simulator::cPlanetRecord* planet) {
+			if ((planet->mType == Simulator::PlanetType::T3 ||
+				planet->mType == Simulator::PlanetType::T2 ||
+				planet->mType == Simulator::PlanetType::T1) &&
+				!PlanetHasCompletePlantEcosystem(planet)) {
+				ResourceKey terrainScript = planet->GetGeneratedTerrainKey();
+				eastl::vector<ResourceKey> scriptPlants;
+				CALL(Address(ModAPI::ChooseAddress(0x0, 0x00BAD210)), void, Args(Simulator::cStarManager*, ResourceKey*, eastl::vector<ResourceKey>*), //TODO CHANGE THE ADDRESS
+					Args(Simulator::cStarManager::Get(), &terrainScript, &scriptPlants));
+
+				int planetTerrascore = static_cast<int>(planet->mType) - 2;
+				CALL(Address(ModAPI::ChooseAddress(0x0, 0x00BAC9C0)), void, Args(Simulator::cStarManager*, eastl::vector<ResourceKey>*, int, int, int, int, eastl::vector<ResourceKey>*), //TODO CHANGE THE ADDRESS
+					Args(Simulator::cStarManager::Get(), &scriptPlants, planetTerrascore, planetTerrascore - 1, 3, 0, &planet->mPlantSpecies));
+			}
+		}
+		void FillPlanetCreatures(Simulator::cPlanetRecord* planet) {
+			if ((planet->mType == Simulator::PlanetType::T3 ||
+				planet->mType == Simulator::PlanetType::T2 ||
+				planet->mType == Simulator::PlanetType::T1) &&
+				!PlanetHasCompleteAnimalEcosystem(planet)) {
+
+				int planetTerrascore = static_cast<int>(planet->mType) - 2;
+				eastl::vector<ResourceKey> priorityCreatures; // empty, we don't care about specific creatures.
+				CALL(Address(ModAPI::ChooseAddress(0x0, 0x00BACE60)), void, Args(Simulator::cStarManager*, eastl::vector<ResourceKey>*, int, int, int, int, eastl::vector<ResourceKey>*), //TODO CHANGE THE ADDRESS
+					Args(Simulator::cStarManager::Get(), &priorityCreatures, planetTerrascore, planetTerrascore - 1, 2, 1, &planet->mAnimalSpecies));
+			}
+		}
+		void FillPlanetEcosystem(Simulator::cPlanetRecord* planet) {
+			if (!PlanetHasCompletePlantEcosystem(planet)) {
+				FillPlanetPlants(planet);
+			}
+			if (!PlanetHasCompleteAnimalEcosystem(planet)) {
+				FillPlanetCreatures(planet);
+			}
+		}
+	}
+}
