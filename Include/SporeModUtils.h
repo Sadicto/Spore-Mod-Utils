@@ -2,3 +2,6 @@
 
 #include "../PlanetUtils/PlanetUtils.h"
 
+#include "../StarUtils/StarUtils.h"
+
+#include "../EmpireUtils/EmpireUtils.h"
