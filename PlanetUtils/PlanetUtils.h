@@ -17,11 +17,19 @@ namespace SporeModUtils {
 		bool InteractablePlanet(Simulator::cPlanetRecord* planet);
 
 		/**
-		* @brief Returns the orbit's type of a planet (hot, cold or normal).
-		* @param planet
-		* @return the orbit's type
-		*/
+		 * @brief Returns the orbit's type of a planet (hot, cold or normal).
+		 * @param planet
+		 * @return the orbit's type
+		 */
 		Simulator::SolarSystemOrbitTemperature GetPlanetOrbitTemperature(Simulator::cPlanetRecord* planet);
+
+		/**
+		 * @brief Returns the base cost of the given spice.
+		 * @param spiceKey The ResourceKey of the spice.
+		 * @return The base cost of the spice, or 0 if the spice is not valid.
+		 */
+		float GetSpiceBaseCost(ResourceKey spiceKey);
+
 
 		/**
 		 * @brief Checks whether the planet has a complete plant ecosystem according to its terraScore.

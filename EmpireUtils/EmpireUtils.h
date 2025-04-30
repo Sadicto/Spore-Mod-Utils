@@ -31,7 +31,7 @@ namespace SporeModUtils {
 		 * @param excludeT0WithBadSpice If true, excludes T0 planets with low-value spice types (i.e., spice worth less than twice the red spice price).
 		 * @param excludeT0 If true, excludes all T0 planets regardless of spice type.
 		 */
-		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeUncolonized = false, bool excludeT0WithBadSpice = false, bool excludeT0 = false);
+		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeUncolonized = false, bool excludeBlueRedOrbit = false, bool excludeBlueRedOrbitWithBadSpice = false, bool excludeT0 = false);
 
     }
 }

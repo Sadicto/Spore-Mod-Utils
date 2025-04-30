@@ -44,14 +44,27 @@ namespace SporeModUtils {
 			return CALL(Address(ModAPI::ChooseAddress(0x00c31000, 0x00c31900)), int, Args(Simulator::cEmpire*), Args(empire));
 		}
 
-		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeUncolonized, bool excludeT0WithBadSpice, bool excludeT0) {
+		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeUncolonized, bool excludeBlueRedOrbit, bool excludeBlueRedOrbitWithBadSpice, bool excludeT0) {
+			// We use the base cost of redSpice to determine if a spice is "bad" or "good"
+			ResourceKey redSpiceKey =  ResourceKey(0x1ca01562, 0, 0);
+			// Caches the base cost of each spice to avoid reading properties on every iteration.
+			eastl::map<uint32_t, float> spiceCosts;
+			// The spiceCosts only matters in this case.
+			if (excludeBlueRedOrbitWithBadSpice && !excludeT0) {
+				for (const ResourceKey& spiceKey : SpaceTrading.mSpices) {
+					spiceCosts[spiceKey.instanceID] = PlanetUtils::GetSpiceBaseCost(spiceKey);
+				}
+			}
 			for (cStarRecordPtr star : empire->mStars) {
 				for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
 					if (PlanetUtils::InteractablePlanet(planet.get())) {
-						if ((!excludeUncolonized || planet->GetTechLevel() == Simulator::TechLevel::Empire)) { //TODO remaining conditions
-
+						bool greenOrbit = PlanetUtils::GetPlanetOrbitTemperature(planet.get()) == Simulator::SolarSystemOrbitTemperature::Normal;
+						if ((!excludeUncolonized || planet->GetTechLevel() == Simulator::TechLevel::Empire) &&
+							(!excludeBlueRedOrbit || greenOrbit) &&
+							(!excludeT0 || planet->mType != Simulator::PlanetType::T0) && 
+							(!excludeBlueRedOrbitWithBadSpice || greenOrbit || (planet->mSpiceGen.instanceID != 0 && spiceCosts[planet->mSpiceGen.instanceID] >= spiceCosts[redSpiceKey.instanceID] * 2))) {
+							planets.push_back(planet);
 						}
-
 					}
 				}
 			}
