@@ -39,22 +39,8 @@ namespace SporeModUtils {
         }
 
 		int GetEmpireLevel(Simulator::cEmpire* empire) {
-			int numSystems = empire->mStars.size();
-			if (numSystems <= 3) {
-				return 0;
-			}
-			else if (numSystems <= 5) {
-				return 1;
-			}
-			else if (numSystems <= 8) {
-				return 2;
-			}
-			else if (numSystems <= 12) {
-				return 3;
-			}
-			else {
-				return 4;
-			}
+			empire->field_D8 = -1;
+			return CALL(Address(ModAPI::ChooseAddress(0x00c31000, 0x00c31900)), int, Args(Simulator::cEmpire*), Args(empire));
 		}
     }
 }
