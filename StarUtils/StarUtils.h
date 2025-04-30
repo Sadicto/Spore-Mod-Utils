@@ -10,6 +10,18 @@ namespace SporeModUtils {
 		void GeneratePlanets(Simulator::cStarRecord* star);
 
 		/**
+		 * @brief Deletes a tribal species from a star system.
+		 * @param star
+		 */
+		void DeleteTribeFromStar(Simulator::cStarRecord* star);
+
+		/**
+		 * @brief Deletes a civilization from a star system.
+		 * @param star
+		 */
+		void DeleteCivFromStar(Simulator::cStarRecord* star);
+
+		/**
 		 * @brief Retrieves all unclaimed stars within a specified radius of given coordinates.
 		 * Optionally, it can include stars with tribes or civilizations, based on the provided flags.
 		 * @param coords A `Vector3` representing the center coordinates.

@@ -2,39 +2,19 @@
 #include "PlanetUtils.h"
 namespace SporeModUtils {
 	namespace PlanetUtils {
-		void DeleteTribeFromStar(Simulator::cStarRecord* star) {
-			star->mTechLevel = Simulator::TechLevel::Creature;
-			star->mCitizenSpeciesKey.instanceID = 0;
-			star->mCitizenSpeciesKey.typeID = 0;
-			star->mCitizenSpeciesKey.groupID = 0;
-			star->mpSpeciesProfile = NULL;
 
-			//find the planet with the tribe and edit it .
-			for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
-				if (planet->GetTechLevel() == Simulator::TechLevel::Tribe) {
-					planet->mTechLevel = Simulator::TechLevel::Creature;
-					planet->mTribeData.clear();
-				}
-				break;
-			}
+		bool InteractablePlanet(Simulator::cPlanetRecord* planet) {
+			ResourceKey adventureIconKey;
+			ResourceKey::Parse(adventureIconKey, u"0x0199b485!0x881aeb0a.0x2f7d0004");
+			Simulator::PlanetType type = planet->mType;
+			return ((type == Simulator::PlanetType::T3 ||
+				type == Simulator::PlanetType::T2 ||
+				type == Simulator::PlanetType::T1 ||
+				type == Simulator::PlanetType::T0) &&
+				(Simulator::cPlanetRecord::GetTypeIconKey(planet) != adventureIconKey && //not adventure, idk if there's a better way to do this
+					!planet->IsDestroyed()));
 		}
 
-		void DeleteCivFromStar(Simulator::cStarRecord* star) {
-			star->mTechLevel = Simulator::TechLevel::Creature;
-			star->mCitizenSpeciesKey.instanceID = 0;
-			star->mCitizenSpeciesKey.typeID = 0;
-			star->mCitizenSpeciesKey.groupID = 0;
-			star->mpSpeciesProfile = NULL;
-
-			//find the planet with the civ and edit it. 
-			for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
-				if (planet->GetTechLevel() == Simulator::TechLevel::Civilization) {
-					planet->mTechLevel = Simulator::TechLevel::Creature;
-					planet->mCivData.clear();
-				}
-				break;
-			}
-		}
 		Simulator::SolarSystemOrbitTemperature GetPlanetOrbitTemperature(Simulator::cPlanetRecord* planet) {
 			if (planet->mFlags & Simulator::PlanetFlags::kPlanetFlagBlueOrbit) {
 				return Simulator::SolarSystemOrbitTemperature::Cold;

@@ -23,6 +23,16 @@ namespace SporeModUtils {
 		 */
 		int GetEmpireLevel(Simulator::cEmpire* empire);
 
+		/**
+		 * Fills the provided vector with the planets from the empire's systems, applying optional filters.
+		 * @param empire
+		 * @param planets The vector to be filled with planets matching the specified criteria.
+		 * @param excludeUncolonized If true, skips uncolonized planets.
+		 * @param excludeT0WithBadSpice If true, excludes T0 planets with low-value spice types (i.e., spice worth less than twice the red spice price).
+		 * @param excludeT0 If true, excludes all T0 planets regardless of spice type.
+		 */
+		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeUncolonized = false, bool excludeT0WithBadSpice = false, bool excludeT0 = false);
+
     }
 }
 

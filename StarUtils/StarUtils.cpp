@@ -12,6 +12,40 @@ namespace SporeModUtils {
 			GameNounManager.DestroyInstance(starT);
         }
 
+		void DeleteTribeFromStar(Simulator::cStarRecord* star) {
+			star->mTechLevel = Simulator::TechLevel::Creature;
+			star->mCitizenSpeciesKey.instanceID = 0;
+			star->mCitizenSpeciesKey.typeID = 0;
+			star->mCitizenSpeciesKey.groupID = 0;
+			star->mpSpeciesProfile = NULL;
+
+			//find the planet with the tribe and edit it .
+			for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+				if (planet->GetTechLevel() == Simulator::TechLevel::Tribe) {
+					planet->mTechLevel = Simulator::TechLevel::Creature;
+					planet->mTribeData.clear();
+				}
+				break;
+			}
+		}
+
+		void DeleteCivFromStar(Simulator::cStarRecord* star) {
+			star->mTechLevel = Simulator::TechLevel::Creature;
+			star->mCitizenSpeciesKey.instanceID = 0;
+			star->mCitizenSpeciesKey.typeID = 0;
+			star->mCitizenSpeciesKey.groupID = 0;
+			star->mpSpeciesProfile = NULL;
+
+			//find the planet with the civ and edit it. 
+			for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+				if (planet->GetTechLevel() == Simulator::TechLevel::Civilization) {
+					planet->mTechLevel = Simulator::TechLevel::Creature;
+					planet->mCivData.clear();
+				}
+				break;
+			}
+		}
+
 		void GetUnclaimedStarsInRadius(const Vector3& coords, float radius, eastl::vector<cStarRecordPtr>& stars, bool includeTribes, bool includeCivs) {
 			Simulator::StarRequestFilter filter;
 			filter.RemoveStarType(Simulator::StarType::None);

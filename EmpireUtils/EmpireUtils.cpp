@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EmpireUtils.h"
+#include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
 namespace SporeModUtils {
     namespace EmpireUtils {
 
@@ -41,6 +42,19 @@ namespace SporeModUtils {
 		int GetEmpireLevel(Simulator::cEmpire* empire) {
 			empire->field_D8 = -1;
 			return CALL(Address(ModAPI::ChooseAddress(0x00c31000, 0x00c31900)), int, Args(Simulator::cEmpire*), Args(empire));
+		}
+
+		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeUncolonized, bool excludeT0WithBadSpice, bool excludeT0) {
+			for (cStarRecordPtr star : empire->mStars) {
+				for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+					if (PlanetUtils::InteractablePlanet(planet.get())) {
+						if ((!excludeUncolonized || planet->GetTechLevel() == Simulator::TechLevel::Empire)) { //TODO remaining conditions
+
+						}
+
+					}
+				}
+			}
 		}
     }
 }

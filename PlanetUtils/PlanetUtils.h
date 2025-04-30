@@ -3,17 +3,18 @@
 
 namespace SporeModUtils {
     namespace PlanetUtils {
-		/**
-		 * @brief Deletes a tribal species from a star system.
-		 * @param star
-		 */
-		void DeleteTribeFromStar(Simulator::cStarRecord* star);
 
 		/**
-		 * @brief Deletes a civilization from a star system.
-		 * @param star
+		 * Returns true if the given planet is interactable by the player.
+		 * A planet is considered interactable if it:
+		 * - Is a rocky planet (i.e., not a gas giant),
+		 * - Is not assigned to a adventure,
+		 * - Is not destroyed.
+		 *
+		 * @param planet
+		 * @return True if the player can interact with this planet; false otherwise.
 		 */
-		void DeleteCivFromStar(Simulator::cStarRecord* star);
+		bool InteractablePlanet(Simulator::cPlanetRecord* planet);
 
 		/**
 		* @brief Returns the orbit's type of a planet (hot, cold or normal).
