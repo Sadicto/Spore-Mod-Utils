@@ -6,9 +6,10 @@ namespace SporeModUtils {
 
 		bool ValidNpcEmpire(Simulator::cEmpire* empire, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
 			return (empire != nullptr &&
+				(empire->mStars.size() > 0) &&
 				(includePlayer || empire != Simulator::GetPlayerEmpire()) &&
 				(includeGrox || empire != StarManager.GetEmpire((StarManager.GetGrobEmpireID()))) &&
-				(empire->mFlags & (1 << 6)) == 0);
+				(includeOtherSaves || (empire->mFlags & (1 << 6)) == 0));
 		}
 
         void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
@@ -33,10 +34,7 @@ namespace SporeModUtils {
 
 			for (cStarRecordPtr star : starsColonized) {
 				Simulator::cEmpire* starEmpire = StarManager.GetEmpire(star->mEmpireID);
-				if (starEmpire != nullptr &&
-					(includePlayer || starEmpire != playerEmpire) &&
-					(includeGrox || starEmpire != groxEmpire) &&
-					(starEmpire->mFlags & (1 << 6)) == 0) /* no empire from other save.*/ {
+				if (ValidNpcEmpire(starEmpire, includePlayer, includeGrox, includeOtherSaves)){
 					empireSet.insert(starEmpire);
 				}
 			}

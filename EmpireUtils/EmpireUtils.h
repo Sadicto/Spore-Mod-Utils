@@ -3,6 +3,16 @@
 namespace SporeModUtils {
     namespace EmpireUtils {
 
+
+		/**
+		 * An empire is considered valid if it is not null, owns at least one system,
+		 * and passes the optional filter conditions.
+		 * @param empire Vector3 representing the center coordinates.
+		 * @param includePlayer If set to `false`, the player empire will be excluded.
+		 * @param includeGrox If set to `false`, the Grox empire will be excluded.
+		 * @param includeOtherSaves If set to `false`, empires from other savegames will be excluded.
+		 * @return true if the empire is a valid NPC empire; false otherwise.
+		 */
 		bool ValidNpcEmpire(Simulator::cEmpire* empire, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
 
 

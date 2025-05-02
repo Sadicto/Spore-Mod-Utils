@@ -3,6 +3,21 @@
 
 namespace SporeModUtils {
     namespace StarUtils {
+
+		/**
+		 * @brief Checks whether a star is valid.
+		 * A star is considered valid if it is not null, represents a normal star
+		 * (i.e., not a black hole, protoplanetary disk, etc.), and passes all the specified filters.
+		 * @param star.
+		 * @param atLeastOneInteractablePlanet If true, the star must have at least one planet that can be interacted with.
+		 * @param notSol If true, the Sol system will be excluded.
+		 * @param noMonolith If true, stars with a monolith will be excluded.
+		 * @param noSavegame If true, stars with a savegame will be excluded.
+		 * @param noPotentialSavegame If true, stars that are potential savegames will be excluded.
+		 * @return true if the star is valid; false otherwise.
+		 */
+		bool ValidStar(Simulator::cStarRecord* star, bool atLeastOneInteractablePlanet = true, bool notSol = true, bool noMonolith = true, bool noSavegame = true, bool noPotentialSavegame = true);
+
 		/**
 		 * @brief Assign spices to all planets in the stars and generates its orbits.
 		 * @param star The star system in which the planets will be generated

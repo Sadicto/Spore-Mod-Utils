@@ -1,8 +1,34 @@
 #include "stdafx.h"
 #include "StarUtils.h"
-
+#include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
 namespace SporeModUtils {
     namespace StarUtils {
+
+		bool ValidStar(Simulator::cStarRecord* star, bool atLeastOneInteractablePlanet, bool notSol, bool noMonolith, bool noSavegame, bool noPotentialSavegame) {
+			if (star != nullptr) {
+				if (atLeastOneInteractablePlanet) {
+					bool foundInteractablePlanet = false;
+					for (cPlanetRecordPtr planet : star->GetPlanetRecords()) {
+						if (PlanetUtils::InteractablePlanet(planet.get())) {
+							foundInteractablePlanet = true;
+							break;
+						}
+					}
+					if (!foundInteractablePlanet) {
+						return false;
+					}
+				}
+				Simulator::StarType type = star->GetType();
+				return(type != Simulator::StarType::GalacticCore &&
+					type != Simulator::StarType::BlackHole &&
+					type != Simulator::StarType::ProtoPlanetary &&
+					(!notSol || star != StarManager.GetSol()) &&
+					(!noMonolith || (star->mFlags & (1 << 3)) == 0) &&
+					(!noSavegame || (star->mFlags & (1 << 1)) == 0) &&
+					(!noPotentialSavegame || (star->mFlags & (1 << 0)) == 0));
+			}
+			return false;
+		}
 
         void GeneratePlanets(Simulator::cStarRecord* star) {
 			eastl::vector<cPlanetRecordPtr> planets = star->GetPlanetRecords();
