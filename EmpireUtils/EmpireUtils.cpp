@@ -4,6 +4,13 @@
 namespace SporeModUtils {
     namespace EmpireUtils {
 
+		bool ValidNpcEmpire(Simulator::cEmpire* empire, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
+			return (empire != nullptr &&
+				(includePlayer || empire != Simulator::GetPlayerEmpire()) &&
+				(includeGrox || empire != StarManager.GetEmpire((StarManager.GetGrobEmpireID()))) &&
+				(empire->mFlags & (1 << 6)) == 0);
+		}
+
         void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
 			Simulator::StarRequestFilter filter;
 			filter.RemoveStarType(Simulator::StarType::None);

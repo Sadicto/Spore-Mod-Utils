@@ -2,6 +2,10 @@
 
 namespace SporeModUtils {
     namespace EmpireUtils {
+
+		bool ValidNpcEmpire(Simulator::cEmpire* empire, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
+
+
 		/**
 		 * @brief Retrieves all empires within a given radius of coordinates,
 		 * @param coords Vector3 representing the center coordinates.
