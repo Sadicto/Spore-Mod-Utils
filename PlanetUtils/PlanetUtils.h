@@ -7,6 +7,7 @@ namespace SporeModUtils {
 		/**
 		 * Returns true if the given planet is interactable by the player.
 		 * A planet is considered interactable if it:
+		 * - Not null,
 		 * - Is a rocky planet (i.e., not a gas giant),
 		 * - Is not assigned to a adventure,
 		 * - Is not destroyed.

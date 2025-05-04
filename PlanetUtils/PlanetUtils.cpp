@@ -1,18 +1,22 @@
 #include "stdafx.h"
 #include "PlanetUtils.h"
+
 namespace SporeModUtils {
 	namespace PlanetUtils {
 
 		bool InteractablePlanet(Simulator::cPlanetRecord* planet) {
 			ResourceKey adventureIconKey;
 			ResourceKey::Parse(adventureIconKey, u"0x0199b485!0x881aeb0a.0x2f7d0004");
-			Simulator::PlanetType type = planet->mType;
-			return ((type == Simulator::PlanetType::T3 ||
-				type == Simulator::PlanetType::T2 ||
-				type == Simulator::PlanetType::T1 ||
-				type == Simulator::PlanetType::T0) &&
-				(Simulator::cPlanetRecord::GetTypeIconKey(planet) != adventureIconKey && //not adventure, idk if there's a better way to do this
-					!planet->IsDestroyed()));
+			if (planet != nullptr) {
+				Simulator::PlanetType type = planet->mType;
+				return ((type == Simulator::PlanetType::T3 ||
+					type == Simulator::PlanetType::T2 ||
+					type == Simulator::PlanetType::T1 ||
+					type == Simulator::PlanetType::T0) &&
+					(Simulator::cPlanetRecord::GetTypeIconKey(planet) != adventureIconKey && //not adventure, idk if there's a better way to do this
+						!planet->IsDestroyed()));
+			}
+			return false;
 		}
 
 		Simulator::SolarSystemOrbitTemperature GetPlanetOrbitTemperature(Simulator::cPlanetRecord* planet) {

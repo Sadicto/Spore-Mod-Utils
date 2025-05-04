@@ -5,3 +5,5 @@
 #include "../StarUtils/StarUtils.h"
 
 #include "../EmpireUtils/EmpireUtils.h"
+
+#include "../TerraformingUtils/TerraformingUtils.h"
