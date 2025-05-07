@@ -2,10 +2,10 @@
 #include "TerraformingUtils.h"
 #include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
 
-const float T0Threeshold = 0.6f;
-const float T1Threeshold = 0.4f;
-const float T2Threeshold = 0.25f;
-const float T3Threeshold = 0.1f;
+const float T0Threshold = 0.6f;
+const float T1Threshold = 0.4f;
+const float T2Threshold = 0.25f;
+const float T3Threshold = 0.1f;
 const float TCenter = 0.5f;
 
 namespace SporeModUtils {
@@ -33,23 +33,68 @@ namespace SporeModUtils {
             return p;
         }
 
+        TerraformingObstacle GetTerraformingObstacle(Simulator::cPlanetRecord* planet, Simulator::PlanetType targetTerrascore) {
+            // I'm very sorry for anyone who read this method.
+            float threshold;
+            switch (targetTerrascore) {
+            case(Simulator::PlanetType::T1): {
+                threshold = T1Threshold;
+                break;
+            }
+            case(Simulator::PlanetType::T2): {
+                threshold = T2Threshold;
+                break;
+            }
+            case(Simulator::PlanetType::T3): {
+                threshold = T3Threshold;
+                break;
+            }
+            default: {
+                return TerraformingObstacle::None;
+            }
+            }
+
+            const float ideal = TCenter;
+
+            float temp = planet->mTemperatureScore;
+            float atmos = planet->mAtmosphereScore;
+
+            bool tooCold = temp < ideal - threshold;
+            bool tooHot = temp > ideal + threshold;
+            bool tooThin = atmos < ideal - threshold;
+            bool tooDense = atmos > ideal + threshold;
+
+            if (tooCold && tooThin) return TerraformingObstacle::ColdLowAtmosphere;
+            if (tooCold && tooDense) return TerraformingObstacle::ColdHighAtmosphere;
+            if (tooHot && tooThin) return TerraformingObstacle::HotLowAtmosphere;
+            if (tooHot && tooDense) return TerraformingObstacle::HotHighAtmosphere;
+
+            if (tooCold) return TerraformingObstacle::Cold;
+            if (tooHot) return TerraformingObstacle::Hot;
+            if (tooThin) return TerraformingObstacle::LowAtmosphere;
+            if (tooDense) return TerraformingObstacle::HighAtmosphere;
+
+            return TerraformingObstacle::None;
+
+        }
+
         void SetAtmosphereAndTemperatureToTerrascore(Simulator::cPlanetRecord* planet, Simulator::PlanetType terrascore) {
             float radious;
             switch (terrascore) {
             case(Simulator::PlanetType::T0): {
-                radious = T0Threeshold;
+                radious = T0Threshold;
                 break;
             }
             case(Simulator::PlanetType::T1): {
-                radious = T1Threeshold;
+                radious = T1Threshold;
                 break;
             }
             case(Simulator::PlanetType::T2): {
-                radious = T2Threeshold;
+                radious = T2Threshold;
                 break;
             }
             case(Simulator::PlanetType::T3): {
-                radious = T3Threeshold;
+                radious = T3Threshold;
                 break;
             }
             default: {

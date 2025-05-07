@@ -9,6 +9,18 @@ namespace SporeModUtils {
             float r, theta;
         };
 
+        enum class TerraformingObstacle {
+            Cold,
+            Hot,
+            LowAtmosphere,
+            HighAtmosphere,
+            ColdLowAtmosphere,
+            ColdHighAtmosphere,
+            HotLowAtmosphere,
+            HotHighAtmosphere,
+            None
+        };
+
         // @brief Converts a cartesian point (x, y) to polar coordinates (r, theta)
         // relative to a polar coordinate system centered at (TCenter, TCenter).
         Polar cartesianToPolar(const Point& p);
@@ -16,6 +28,16 @@ namespace SporeModUtils {
         // @brief Converts a polar coordinate (r, theta) to a cartesian point (x, y),
         // assuming the polar origin is at (TCenter, TCenter).
         Point polarToCartesian(const Polar& polar);
+
+
+        /**
+         * @brief Determines the main obstacle preventing the given planet
+         * from reaching the specified terraforming score.
+         * @param planet
+         * @param targetTScore
+         * @return The TerraformingObstacle that prevents the planet from reaching targetTerrascore.
+         */
+        TerraformingObstacle GetTerraformingObstacle(Simulator::cPlanetRecord* planet, Simulator::PlanetType targetTerrascore);
 
         /**
          * @brief Adjusts the planet's atmosphere and temperature to match  the specified terrascore level.
