@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EmpireUtils.h"
 #include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
+#include <Spore-Mod-Utils/SpiceUtils/SpiceUtils.h>
 namespace SporeModUtils {
     namespace EmpireUtils {
 
@@ -57,7 +58,7 @@ namespace SporeModUtils {
 			// The spiceCosts only matters in this case.
 			if (excludeBlueRedOrbitWithBadSpice && !excludeT0) {
 				for (const ResourceKey& spiceKey : SpaceTrading.mSpices) {
-					spiceCosts[spiceKey.instanceID] = PlanetUtils::GetSpiceBaseCost(spiceKey);
+					spiceCosts[spiceKey.instanceID] = SpiceUtils::GetSpiceBaseCost(spiceKey);
 				}
 			}
 			for (cStarRecordPtr star : empire->mStars) {

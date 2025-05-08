@@ -7,3 +7,5 @@
 #include "../EmpireUtils/EmpireUtils.h"
 
 #include "../TerraformingUtils/TerraformingUtils.h"
+
+#include "../SpiceUtils/SpiceUtils.h"

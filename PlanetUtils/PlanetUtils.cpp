@@ -31,19 +31,6 @@ namespace SporeModUtils {
 			}
 		}
 
-		float GetSpiceBaseCost(ResourceKey spiceKey) {
-			float cost = 0;
-			if (spiceKey.instanceID != 0) {
-				PropertyListPtr propList;
-				uint32_t spaceTradingId = 0x034D97FA;
-				if (PropManager.GetPropertyList(spiceKey.instanceID, spaceTradingId, propList)) {
-					uint32_t spaceTradingBaseCostId = 0x034F1A4A;
-					App::Property::GetFloat(propList.get(), spaceTradingBaseCostId, cost);
-				}
-			}
-			return cost;
-		}
-
 		bool PlanetHasCompletePlantEcosystem(Simulator::cPlanetRecord* planet) {
 			Simulator::PlanetType planetType = planet->mType;
 			int plantSpeciesNum = planet->mPlantSpecies.size();
