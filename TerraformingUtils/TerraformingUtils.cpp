@@ -38,15 +38,15 @@ namespace SporeModUtils {
             float threshold;
             switch (targetTerrascore) {
             case(Simulator::PlanetType::T1): {
-                threshold = T1Threshold;
+                threshold = T1Threshold - 0.1f;
                 break;
             }
             case(Simulator::PlanetType::T2): {
-                threshold = T2Threshold;
+                threshold = T2Threshold - 0.1f;
                 break;
             }
             case(Simulator::PlanetType::T3): {
-                threshold = T3Threshold;
+                threshold = T3Threshold - 0.1f;
                 break;
             }
             default: {
