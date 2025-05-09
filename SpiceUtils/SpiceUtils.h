@@ -62,5 +62,26 @@ namespace SporeModUtils {
 		 * @return The key of the spice with the lowest value or ResourceKey(0,0,0) if the map is empty.
 		 */
 		ResourceKey GetCheapestSpice(const eastl::map<ResourceKey, float>& spiceCosts);
+
+		/*
+		 * Returns true if the given spice is considered low-value; that is, if
+		 * its cost is less than twice the cost of the cheapest spice.
+		 * @param spiceKey
+		 * @param spiceCosts A map containing the cost associated with each spice.
+		 * @return True if the spice has a cost below the defined threshold, false otherwise.
+		 */
+		bool LowValueSpice(ResourceKey spiceKey, const eastl::map<ResourceKey, float>& spiceCosts);
+
+		/*
+		 * Returns true if the given spice is considered low-value; that is, if
+		 * its cost is less than twice the cost of the cheapest spice.
+		 * The cost data is retrieved by calling GetSpawnableSpiceBaseCosts().
+		 *
+		 * @param spiceKey
+		 * @return True if the spice has a cost below the defined threshold, false otherwise.
+		 */
+		bool LowValueSpice(ResourceKey spiceKey);
+
+
     }
 }

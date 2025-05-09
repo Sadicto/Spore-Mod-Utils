@@ -40,12 +40,28 @@ namespace SporeModUtils {
 		/**
 		 * Fills the provided vector with the planets from the empire's systems, applying optional filters.
 		 * @param empire
-		 * @param planets The vector to be filled with planets matching the specified criteria.
+		 * @param planets The vector to be filled with planets matching the specified filters.
+		 * @param excludeColonized If true, excludes planets that are already colonized by the empire.
 		 * @param excludeUncolonized If true, skips uncolonized planets.
-		 * @param excludeT0WithBadSpice If true, excludes T0 planets with low-value spice types (i.e., spice worth less than twice the red spice price).
+		 * @param excludeBlueRedOrbitWithLowValueSpice If true, excludes planets in blue or red orbits that have low-value spices.
 		 * @param excludeT0 If true, excludes all T0 planets regardless of spice type.
 		 */
-		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeColonized = false, bool excludeUncolonized = false, bool excludeBlueRedOrbit = false, bool excludeBlueRedOrbitWithBadSpice = false, bool excludeT0 = false);
+		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, const eastl::map<ResourceKey, float>& spiceCosts, bool excludeColonized = false, bool excludeUncolonized = false, bool excludeBlueRedOrbit = false, bool excludeBlueRedOrbitWithLowValueSpice = false, bool excludeT0 = false);
+
+		/**
+		 * Fills the provided vector with the planets from the empire's systems, applying optional filters.
+		 *
+		 * @param empire
+		 * @param planets The vector to be filled with planets that match the specified filters.
+		 * @param spiceCosts A map containing the cost of different spice types, used to filter planets with low-value spices.
+		 * @param excludeColonized If true, excludes planets that are already colonized by the empire.
+		 * @param excludeUncolonized If true, excludes uncolonized planets from the result.
+		 * @param excludeBlueRedOrbit If true, excludes planets in blue or red orbits from the result.
+		 * @param excludeBlueRedOrbitWithLowValueSpice If true, excludes planets in blue or red orbits that have low-value spices.
+		 * @param excludeT0 If true, excludes all T0 planets, regardless of spice type or other conditions.
+		 */
+		void GetEmpirePlanets(Simulator::cEmpire* empire, eastl::vector<cPlanetRecordPtr>& planets, bool excludeColonized = false, bool excludeUncolonized = false, bool excludeBlueRedOrbit = false, bool excludeBlueRedOrbitWithLowValueSpice = false, bool excludeT0 = false);
+
 
     }
 }

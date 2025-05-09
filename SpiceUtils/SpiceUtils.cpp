@@ -99,5 +99,26 @@ namespace SporeModUtils {
             return ResourceKey(0, 0, 0);
         }
 
+        bool LowValueSpice(ResourceKey spiceKey, const eastl::map<ResourceKey, float>& spiceCosts) {
+            ResourceKey cheapestSpice = GetCheapestSpice(spiceCosts);
+            auto it = spiceCosts.find(cheapestSpice);
+            if (it == spiceCosts.end()) {
+                // This should never happen.
+                return false;
+            }
+            float cheapestSpiceCost = it->second;
+            it = spiceCosts.find(spiceKey);
+            if (it == spiceCosts.end()) {
+                return true;
+            }
+            float spiceCost = it->second;
+            return (cheapestSpiceCost * 2 > spiceCost);
+        }
+
+        bool LowValueSpice(ResourceKey spiceKey) {
+            eastl::map<ResourceKey, float> spiceCosts;
+            GetSpawnableSpiceBaseCosts(spiceCosts);
+            return LowValueSpice(spiceKey, spiceCosts);
+        }
     }
 }
