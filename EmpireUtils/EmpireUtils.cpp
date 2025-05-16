@@ -13,6 +13,16 @@ namespace SporeModUtils {
 				(includeOtherSaves || (empire->mFlags & (1 << 6)) == 0));
 		}
 
+		Simulator::cStarRecord* GetHomeStar(Simulator::cEmpire* empire) {
+			if (empire != nullptr) {
+				empire->RequireHomePlanet();
+				return empire->GetHomeStarRecord();
+			}
+			else {
+				return nullptr;
+			}
+		}
+
         void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
 			Simulator::StarRequestFilter filter;
 			filter.RemoveStarType(Simulator::StarType::None);

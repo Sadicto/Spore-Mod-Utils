@@ -1,4 +1,5 @@
 #pragma once
+#include <Spore/Simulator/cStarRecord.h>
 
 namespace SporeModUtils {
     namespace EmpireUtils {
@@ -14,6 +15,13 @@ namespace SporeModUtils {
 		 * @return true if the empire is a valid NPC empire; false otherwise.
 		 */
 		bool ValidNpcEmpire(Simulator::cEmpire* empire, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
+
+		/**
+		 * Returns the home star system of the given empire, assigning one if necessary.
+		 * @param empire.
+		 * @return Pointer to the home star system of the specified empire, or nullptr if the empire is null.
+		 */
+		Simulator::cStarRecord* GetHomeStar(Simulator::cEmpire* empire);
 
 
 		/**
