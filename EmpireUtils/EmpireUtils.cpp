@@ -15,7 +15,9 @@ namespace SporeModUtils {
 
 		Simulator::cStarRecord* GetHomeStar(Simulator::cEmpire* empire) {
 			if (ValidNpcEmpire(empire, true, true, true)) {
-				empire->RequireHomePlanet();
+				if (empire->mHomeStar.internalValue == -1) {
+					empire->RequireHomePlanet();
+				}
 				return empire->GetHomeStarRecord();
 			}
 			else {
