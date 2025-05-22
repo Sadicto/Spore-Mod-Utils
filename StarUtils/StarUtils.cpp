@@ -32,7 +32,7 @@ namespace SporeModUtils {
 
         void GeneratePlanets(Simulator::cStarRecord* star) {
 			eastl::vector<cPlanetRecordPtr> planets = star->GetPlanetRecords();
-			Simulator::cStar* starT = simulator_new<Simulator::cStar>();
+			Simulator::cStar * starT = static_cast<Simulator::cStar*>(GameNounManager.CreateInstance(Simulator::cStar::NOUN_ID));
 			starT->mpStarRecord = star;
 			starT->GetSolarSystem();
 			GameNounManager.DestroyInstance(starT);
