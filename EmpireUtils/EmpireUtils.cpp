@@ -74,8 +74,6 @@ namespace SporeModUtils {
 			}
 		}
 
-		}
-
 		int GetEmpireLevel(Simulator::cEmpire* empire) {
 			empire->field_D8 = -1;
 			return CALL(Address(ModAPI::ChooseAddress(0x00c31000, 0x00c31900)), int, Args(Simulator::cEmpire*), Args(empire));
@@ -107,4 +105,5 @@ namespace SporeModUtils {
 			}
 			GetEmpirePlanets(empire, planets, spiceCosts, excludeColonized, excludeUncolonized, excludeBlueRedOrbit, excludeBlueRedOrbitWithLowValueSpice, excludeT0);
 		}
+	}
 }
