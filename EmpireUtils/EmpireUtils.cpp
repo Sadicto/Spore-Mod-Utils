@@ -10,12 +10,14 @@ namespace SporeModUtils {
 				(empire->mStars.size() > 0) &&
 				(includePlayer || empire != Simulator::GetPlayerEmpire()) &&
 				(includeGrox || empire != StarManager.GetEmpire((StarManager.GetGrobEmpireID()))) &&
-				(includeOtherSaves || (empire->mFlags & (1 << 6)) == 0));
+				(includeOtherSaves || empire == Simulator::GetPlayerEmpire() || (empire->mFlags & (1 << 6)) == 0));
 		}
 
 		Simulator::cStarRecord* GetHomeStar(Simulator::cEmpire* empire) {
 			if (ValidNpcEmpire(empire, true, true, true)) {
-				empire->RequireHomePlanet();
+				if (empire->mHomeStar.internalValue == -1) {
+					empire->RequireHomePlanet();
+				}
 				return empire->GetHomeStarRecord();
 			}
 			else {
