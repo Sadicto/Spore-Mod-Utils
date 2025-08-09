@@ -43,7 +43,7 @@ namespace SporeModUtils {
 		 * @param includePlayer If set to `false`, the player empire will not be included in the list of empires, even if found.
 		 * @param includeGrox If set to `false`, the Grox empire will not be included in the list of empires, even if found.
 		 * @param includeOtherSaves If set to `false`, empires from other savegames will not be included, even if found.
-		*/
+		 */
 		void GetEmpiresInRangeOfEmpire(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empires, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
 
 		/**

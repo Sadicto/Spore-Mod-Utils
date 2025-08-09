@@ -3,11 +3,11 @@
 namespace SporeModUtils {
     namespace DiplomacyUtils {
 
-        bool EmpireEncountered(cEmpire* empire) {
+        bool EmpireEncountered(Simulator::cEmpire* empire) {
             return true;
         }
 
-        bool Alliance(cEmpire* empire1, cEmpire* empire2) {
+        bool Alliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
             for (cEmpirePtr empireAlly : empire1->mAllies) {
                 if (empireAlly.get() == empire2) {
                     return true;
@@ -16,7 +16,7 @@ namespace SporeModUtils {
             return false;
         }
 
-        bool AllianceWithEnemyOfEmpire(cEmpire* empire, cEmpire* target) {
+        bool AllianceWithEnemyOfEmpire(Simulator::cEmpire* empire, Simulator::cEmpire* target) {
             for (cEmpirePtr allyEmpire : empire->mAllies) {
                 auto it = eastl::find(target->mEnemies.begin(), target->mEnemies.end(), allyEmpire);
                 if (it != target->mEnemies.end()) { // an ally is an enemy of the target empire
@@ -26,7 +26,7 @@ namespace SporeModUtils {
             return false;
         }
 
-        bool CommonEnemy(cEmpire* empire1, cEmpire* empire2) {
+        bool CommonEnemy(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
             int commonEnemies = 0;
             for (cEmpirePtr enemyEmpire : empire1->mEnemies) {
                 auto it = eastl::find(empire2->mEnemies.begin(), empire2->mEnemies.end(), enemyEmpire);
