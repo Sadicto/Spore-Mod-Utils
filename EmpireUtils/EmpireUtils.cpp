@@ -107,5 +107,4 @@ namespace SporeModUtils {
 			}
 			GetEmpirePlanets(empire, planets, spiceCosts, excludeColonized, excludeUncolonized, excludeBlueRedOrbit, excludeBlueRedOrbitWithLowValueSpice, excludeT0);
 		}
-    }
 }
