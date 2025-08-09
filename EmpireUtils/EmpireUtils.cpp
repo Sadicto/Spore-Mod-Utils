@@ -55,6 +55,25 @@ namespace SporeModUtils {
 			}
         }
 
+		void GetEmpiresInRangeOfEmpire(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
+			eastl::set<cEmpirePtr> nearEmpiresSet;
+			for (cStarRecordPtr empireStar : empire->mStars) {
+				eastl::vector<cEmpirePtr> empiresAroundStar;
+				Vector3 starCoordinates = empireStar->mPosition;
+				GetEmpiresInRadius(starCoordinates, range, empiresAroundStar, true);
+				for (cEmpirePtr nearEmpire : empiresAroundStar) {
+					if (nearEmpire != empire && EmpireUtils::ValidNpcEmpire(nearEmpire.get(), includePlayer, includeGrox, includeOtherSaves)) {
+						nearEmpiresSet.insert(nearEmpire);
+					}
+				}
+			}
+			for (cEmpirePtr empire : nearEmpiresSet) {
+				empires.push_back(empire);
+			}
+		}
+
+		}
+
 		int GetEmpireLevel(Simulator::cEmpire* empire) {
 			empire->field_D8 = -1;
 			return CALL(Address(ModAPI::ChooseAddress(0x00c31000, 0x00c31900)), int, Args(Simulator::cEmpire*), Args(empire));
