@@ -5,9 +5,9 @@ namespace SporeModUtils {
     namespace DiplomacyUtils {
 
         /**
-         * TODO
+         * TODO DISK ADDRESS
          */
-        bool EmpireEncountered(Simulator::cEmpire* empire);
+        bool PlayerInteractedWithEmpire(Simulator::cEmpire* empire);
 
         /**
          * @brief Checks whether empire1 is allied with empire2.

@@ -3,8 +3,8 @@
 namespace SporeModUtils {
     namespace DiplomacyUtils {
 
-        bool EmpireEncountered(Simulator::cEmpire* empire) {
-            return true;
+        bool PlayerInteractedWithEmpire(Simulator::cEmpire* empire) {
+            return  CALL(Address(0x00c7a910), bool, Args(Simulator::cPlayer*, int), Args(Simulator::GetPlayer(), empire->mPoliticalID));;
         }
 
         bool Alliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
