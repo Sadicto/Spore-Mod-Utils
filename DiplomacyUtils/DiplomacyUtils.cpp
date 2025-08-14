@@ -20,6 +20,15 @@ namespace SporeModUtils {
             return false;
         }
 
+        bool AllianceWithAllyOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+            for (cEmpirePtr empireAlly : empire1->mAllies) {
+                if (Alliance(empire1, empireAlly.get())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         bool AllianceWithEnemyOfEmpire(Simulator::cEmpire* empire, Simulator::cEmpire* target) {
             for (cEmpirePtr allyEmpire : empire->mAllies) {
                 auto it = eastl::find(target->mEnemies.begin(), target->mEnemies.end(), allyEmpire);

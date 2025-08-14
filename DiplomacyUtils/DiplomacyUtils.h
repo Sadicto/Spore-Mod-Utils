@@ -23,6 +23,14 @@ namespace SporeModUtils {
         bool Alliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
 
         /**
+         * @brief Checks whether empire1 is allied with an ally of empire2.
+         * @param empire1.
+         * @param empire2.
+         * @return True if empire1 is allied with an ally of empire2, false otherwise.
+         */
+        bool AllianceWithAllyOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+        /**
          * @brief Checks if empire is allied with any enemy of target.
          * @param empire.
          * @param target.
