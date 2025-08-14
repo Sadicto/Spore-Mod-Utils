@@ -47,6 +47,14 @@ namespace SporeModUtils {
 		void GetEmpiresInRangeOfEmpire(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empires, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
 
 		/**
+		 * @brief Gets the total number of systems owned by the given empire and a specified list of allied empires.
+		 * @param empire
+		 * @param allies The vector containing allied empires to include in the count.
+		 * @return The number of systems owned by the empire and its specified allies.
+		 */
+		int GetSystemCountWithAllies(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& allies);
+
+		/**
 		 * @brief Returns the power level of an empire.
 		 *
 		 * In vanilla, the empire's power level is based on the number of systems it controls.

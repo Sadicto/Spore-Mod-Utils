@@ -74,6 +74,14 @@ namespace SporeModUtils {
 			}
 		}
 
+		int GetSystemCountWithAllies(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& allies) {
+			int systemCount = empire->mStars.size();
+			for (cEmpirePtr ally : allies) {
+				systemCount += ally->mStars.size();
+			}
+			return systemCount;
+		}
+
 		int GetEmpireLevel(Simulator::cEmpire* empire) {
 			empire->field_D8 = -1;
 			return CALL(Address(ModAPI::ChooseAddress(0x00c31000, 0x00c31900)), int, Args(Simulator::cEmpire*), Args(empire));

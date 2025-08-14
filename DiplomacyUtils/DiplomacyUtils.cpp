@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DiplomacyUtils.h"
+#include <Spore-Mod-Utils/EmpireUtils/EmpireUtils.h>
 namespace SporeModUtils {
     namespace DiplomacyUtils {
 
@@ -48,6 +49,52 @@ namespace SporeModUtils {
                 }
             }
             return false;
+        }
+
+        void GetAlliesFromVector(Simulator::cEmpire* empire, const eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireAllies) {
+            for (cEmpirePtr potencialAlly : empires) {
+                if (Alliance(empire, potencialAlly.get())) {
+                    empireAllies.push_back(potencialAlly);
+                }
+            }
+        }
+
+        void GetEnemiesFromVector(Simulator::cEmpire* empire, const eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireEnemies) {
+            for (cEmpirePtr potencialEnemy : empires) {
+                if (RelationshipManager.IsAtWar(empire, potencialEnemy.get())) {
+                    empireEnemies.push_back(potencialEnemy);
+                }
+            }
+        }
+
+        void GetAlliesInRange(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empireAllies) {
+            eastl::vector<cEmpirePtr> empiresInRange;
+            EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empiresInRange, true);
+            GetAlliesFromVector(empire, empiresInRange, empireAllies);
+        }
+
+        /**
+         * @brief Populates a vector with all enemy empires of the given empire that are within the specified range.
+         * @param empire.
+         * @param range The maximum range within which enemies are considered.
+         * @param empireEnemies The vector to be populated with the found enemy empires.
+         */
+        void GetEnemiesInRange(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empireEnemies) {
+            eastl::vector<cEmpirePtr> empiresInRange;
+            EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empiresInRange, true);
+            GetEnemiesFromVector(empire, empiresInRange, empireEnemies);
+        }
+
+        void GetEmpiresInRangeByRelation(
+            Simulator::cEmpire* empire,
+            float range,
+            eastl::vector<cEmpirePtr>& empiresInRange,
+            eastl::vector<cEmpirePtr>& empireAllies,
+            eastl::vector<cEmpirePtr>& empireEnemies) {
+
+            EmpireUtils::GetEmpiresInRangeOfEmpire(empire, range, empiresInRange, true);
+            GetAlliesFromVector(empire, empiresInRange, empireAllies);
+            GetEnemiesFromVector(empire, empiresInRange, empireEnemies);
         }
     }
 }
