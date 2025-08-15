@@ -33,11 +33,22 @@ namespace SporeModUtils {
         bool AllianceWithEnemyOfEmpire(Simulator::cEmpire* empire, Simulator::cEmpire* target) {
             for (cEmpirePtr allyEmpire : empire->mAllies) {
                 auto it = eastl::find(target->mEnemies.begin(), target->mEnemies.end(), allyEmpire);
-                if (it != target->mEnemies.end()) { // an ally is an enemy of the target empire
+                // an ally is an enemy of the target empire
+                if (it != target->mEnemies.end()) { 
                     return true;
                 }
             }
             return false;
+        }
+
+        void GetAlliesThatAreEnemiesOf(Simulator::cEmpire* empire, Simulator::cEmpire* target, eastl::set<cEmpirePtr>& alliesEnemiesOfTarget) {
+            for (cEmpirePtr allyEmpire : empire->mAllies) {
+                auto it = eastl::find(target->mEnemies.begin(), target->mEnemies.end(), allyEmpire);
+                // an ally is an enemy of the target empire
+                if (it != target->mEnemies.end() && EmpireUtils::ValidNpcEmpire(allyEmpire.get(), true)) {
+                    alliesEnemiesOfTarget.insert(allyEmpire);
+                }
+            }
         }
 
         bool CommonEnemy(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
@@ -51,7 +62,7 @@ namespace SporeModUtils {
             return false;
         }
 
-        void GetAlliesFromVector(Simulator::cEmpire* empire, const eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireAllies) {
+        void GetAlliesFromVector(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireAllies) {
             for (cEmpirePtr potencialAlly : empires) {
                 if (Alliance(empire, potencialAlly.get())) {
                     empireAllies.push_back(potencialAlly);
@@ -59,7 +70,7 @@ namespace SporeModUtils {
             }
         }
 
-        void GetEnemiesFromVector(Simulator::cEmpire* empire, const eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireEnemies) {
+        void GetEnemiesFromVector(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireEnemies) {
             for (cEmpirePtr potencialEnemy : empires) {
                 if (RelationshipManager.IsAtWar(empire, potencialEnemy.get())) {
                     empireEnemies.push_back(potencialEnemy);

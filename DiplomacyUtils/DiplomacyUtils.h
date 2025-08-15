@@ -39,6 +39,15 @@ namespace SporeModUtils {
         bool AllianceWithEnemyOfEmpire(Simulator::cEmpire* empire, Simulator::cEmpire* target);
 
         /**
+         * @brief Retrieves all empires that are allies of the given empire and enemies of the target empire.
+         *
+         * @param empire.
+         * @param target.
+         * @param alliesEnemiesOfTarget set that will contain all empires that are both allied with the given empire and enemies of the target.
+         */
+        void GetAlliesThatAreEnemiesOf(Simulator::cEmpire* empire, Simulator::cEmpire* target, eastl::set<cEmpirePtr>& alliesEnemiesOfTarget);
+
+        /**
          * @brief Checks if empire1 have a common enemy with empire2
          * @param empire1.
          * @param empire2.
@@ -52,7 +61,7 @@ namespace SporeModUtils {
          * @param empires The input vector of empires to filter.
          * @param empireAllies The vector to be populated with allied empires found in the empires vector.
          */
-        void GetAlliesFromVector(Simulator::cEmpire* empire, const eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireAllies);
+        void GetAlliesFromVector(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireAllies);
 
         /**
          * @brief Populates a vector with all empires from the input vector that are enemies of the given empire.
@@ -60,7 +69,7 @@ namespace SporeModUtils {
          * @param empires The input vector of empires to filter.
          * @param empireEnemies The vector to be populated with enemy empires found in the empires vector.
          */
-        void GetEnemiesFromVector(Simulator::cEmpire* empire, const eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireEnemies);
+        void GetEnemiesFromVector(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& empires, eastl::vector<cEmpirePtr>& empireEnemies);
 
         /**
          * @brief Populates a vector with all allied empires of the given empire that are within the specified range.
