@@ -4,11 +4,14 @@ namespace SporeModUtils {
     namespace ArchetypeUtils {
         /**
          * @brief Returns the base (non-player) archetype corresponding to a given archetype value.
+         * If the optional preservePlayerSubtypes flag is true, special mappings are applied:
+         * - If input is kArchetypePlayerWanderer, returns kArchetypeGrob.
+         * - If input is kArchetypePlayerKnight, returns kArchetypePlayerWarrior.
          * @param archetype The input value from the Archetypes enum.
          * @return The corresponding base archetype if input is a player archetype,
          * or the original value if no mapping is necessary.
          */
-        Simulator::Archetypes GetBaseArchetype(Simulator::Archetypes archetype);
+        Simulator::Archetypes GetBaseArchetype(Simulator::Archetypes archetype, bool preservePlayerSubtypes = false);
     }
 }
 
