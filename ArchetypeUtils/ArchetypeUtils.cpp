@@ -2,13 +2,27 @@
 #include "ArchetypeUtils.h"
 namespace SporeModUtils {
     namespace ArchetypeUtils {
-        Simulator::Archetypes GetBaseArchetype(Simulator::Archetypes archetype) {
+        Simulator::Archetypes GetBaseArchetype(Simulator::Archetypes archetype, bool preservePlayerSubtypes) {
             switch (archetype)
             {
-            case  Simulator::Archetypes::kArchetypePlayerKnight:
-                return Simulator::Archetypes::kArchetypeWarrior;
-            case Simulator::Archetypes::kArchetypePlayerWanderer:
-                return Simulator::Archetypes::kArchetypeDiplomat;
+            case  Simulator::Archetypes::kArchetypePlayerKnight: {
+                if (preservePlayerSubtypes) {
+                    return Simulator::Archetypes::kArchetypePlayerWarrior;
+                }
+                else {
+                    return Simulator::Archetypes::kArchetypeWarrior;
+                }
+            }
+                
+            case Simulator::Archetypes::kArchetypePlayerWanderer: {
+                if (preservePlayerSubtypes) {
+                    return Simulator::Archetypes::kArchetypeGrob;
+                }
+                else {
+                    return Simulator::Archetypes::kArchetypeDiplomat;
+                }
+            }
+                
 
             case Simulator::Archetypes::kArchetypePlayerWarrior:
                 return Simulator::Archetypes::kArchetypeWarrior;
