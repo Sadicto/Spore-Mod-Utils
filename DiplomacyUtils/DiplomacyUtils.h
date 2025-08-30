@@ -104,6 +104,12 @@ namespace SporeModUtils {
             eastl::vector<cEmpirePtr>& empireAllies,
             eastl::vector<cEmpirePtr>& empireEnemies);
 
+        /// @brief Returns a string representing the relation of the empire with the player.
+        /// @param empire.
+        /// @return "your ally" if the empire is allied with the player, "your enemy" if hostile, or empty string if neutral.
+        eastl::string16 GetPlayerRelationString(Simulator::cEmpire* empire);
+
+
 
 
     }

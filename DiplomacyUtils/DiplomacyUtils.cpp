@@ -107,5 +107,18 @@ namespace SporeModUtils {
             GetAlliesFromVector(empire, empiresInRange, empireAllies);
             GetEnemiesFromVector(empire, empiresInRange, empireEnemies);
         }
+
+        eastl::string16 GetPlayerRelationString(Simulator::cEmpire* empire) {
+            eastl::string16 relationString = u"";
+            Simulator::cEmpire* playerEmpire = Simulator::GetPlayerEmpire();
+            if (Alliance(playerEmpire, empire)) {
+                relationString = u"your ally";
+            }
+            else if (RelationshipManager.IsAtWar(playerEmpire, empire)) {
+                relationString = u"your enemy";
+            }
+            return relationString;
+                
+        }
     }
 }
