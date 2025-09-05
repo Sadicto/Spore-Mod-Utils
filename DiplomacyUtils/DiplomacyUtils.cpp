@@ -22,7 +22,7 @@ namespace SporeModUtils {
         }
 
         bool AllianceWithAllyOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
-            for (cEmpirePtr empireAlly : empire1->mAllies) {
+            for (cEmpirePtr empireAlly : empire2->mAllies) {
                 if (Alliance(empire1, empireAlly.get())) {
                     return true;
                 }
