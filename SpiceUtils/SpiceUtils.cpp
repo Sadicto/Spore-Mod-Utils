@@ -70,6 +70,17 @@ namespace SporeModUtils {
             return cost;
         }
 
+        float GetSpiceBaseCost(ResourceKey spiceKey, const eastl::map<ResourceKey, float>& spiceCosts) {
+            auto it = spiceCosts.find(spiceKey);
+            if (it == spiceCosts.end()) {
+                // This should never happen.
+                return 0;
+            }
+            else {
+                return it->second;
+            }
+        }
+
         void GetSpiceBaseCosts(eastl::map<ResourceKey, float>& spiceCosts) {
             eastl::vector<ResourceKey> spices;
             GetSpices(spices);
