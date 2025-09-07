@@ -15,6 +15,14 @@ namespace SporeModUtils {
         bool PlayerContactedEmpire(Simulator::cEmpire* empire);
 
         /**
+         * @brief Checks whether empire1 is at war with empire2.
+         * @param empire1.
+         * @param empire2.
+         * @return True if empire1 is allied with empire2, false otherwise.
+         */
+        bool War(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2);
+
+        /**
          * @brief Checks whether empire1 is allied with empire2.
          * @param empire1.
          * @param empire2.

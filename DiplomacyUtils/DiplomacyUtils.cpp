@@ -12,6 +12,15 @@ namespace SporeModUtils {
             return  CALL(Address(0x00c7a8b0), bool, Args(Simulator::cPlayer*, int), Args(Simulator::GetPlayer(), empire->mPoliticalID));;
         }
 
+        bool War(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
+            for (cEmpirePtr empireEnemy : empire1->mEnemies) {
+                if (empireEnemy.get() == empire2) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         bool Alliance(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2) {
             for (cEmpirePtr empireAlly : empire1->mAllies) {
                 if (empireAlly.get() == empire2) {
