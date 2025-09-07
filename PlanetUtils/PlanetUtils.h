@@ -18,6 +18,13 @@ namespace SporeModUtils {
 		bool InteractablePlanet(Simulator::cPlanetRecord* planet);
 
 		/**
+		 * Returns true if the given planet is the homeworld of an empire.
+		 * @param planet
+		 * @return True if it is a homeworld, false otherwise.
+		 */
+		bool Homeworld(Simulator::cPlanetRecord* planet);
+
+		/**
 		 * @brief Returns the orbit's type of a planet (hot, cold or normal).
 		 * @param planet
 		 * @return the orbit's type
