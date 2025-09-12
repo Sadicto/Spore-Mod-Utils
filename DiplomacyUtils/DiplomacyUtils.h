@@ -5,12 +5,16 @@ namespace SporeModUtils {
     namespace DiplomacyUtils {
 
         /**
-        * TODO DISK ADDRESS
-        */
+         * @brief Checks whether the given AI empire is aware of the player.
+         * @param empire The empire to check.
+         * @return True if the empire knows about the player, false otherwise.
+         */
         bool EmpireIsAwareOfPlayer(Simulator::cEmpire* empire);
 
         /**
-         * TODO DISK ADDRESS
+         * @brief Checks whether the player has established contact with the given AI empire.
+         * @param empire The empire to check.
+         * @return True if the player has contacted the empire, false otherwise.
          */
         bool PlayerContactedEmpire(Simulator::cEmpire* empire);
 
