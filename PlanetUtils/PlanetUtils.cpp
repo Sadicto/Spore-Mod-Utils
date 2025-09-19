@@ -21,10 +21,7 @@ namespace SporeModUtils {
 
 		bool Homeworld(Simulator::cPlanetRecord* planet) {
 			Simulator::cEmpire* empire = StarManager.GetEmpire(planet->GetStarRecord()->mEmpireID);
-			if (empire != nullptr && empire->mHomePlanet == planet->GetID()) {
-				return true;
-			}
-			else false;
+			return empire != nullptr && empire->mHomePlanet == planet->GetID();
 		}
 
 		Simulator::SolarSystemOrbitTemperature GetPlanetOrbitTemperature(Simulator::cPlanetRecord* planet) {
