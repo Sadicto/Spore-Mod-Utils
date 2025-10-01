@@ -22,6 +22,14 @@ namespace SporeModUtils {
                     return Simulator::Archetypes::kArchetypeDiplomat;
                 }
             }
+            case Simulator::Archetypes::kArchetypeGrob: {
+                if (preservePlayerSubtypes) {
+                    return Simulator::Archetypes::kArchetypePlayerTrader;
+                }
+                else {
+                    return Simulator::Archetypes::kArchetypeGrob;
+                }
+            }
                 
 
             case Simulator::Archetypes::kArchetypePlayerWarrior:
