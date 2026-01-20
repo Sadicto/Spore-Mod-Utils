@@ -23,6 +23,14 @@ namespace SporeModUtils {
 		 */
 		Simulator::cStarRecord* GetHomeStar(Simulator::cEmpire* empire);
 
+		/**
+		 * @brief checks whether the empire2 is within range of the empire1.
+		 * @param empire1
+		 * @param empire2
+		 * @return True if the empire is within range, false otherwise.
+		 */
+		bool EmpireInRangeOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, float range);
+
 
 		/**
 		 * @brief Retrieves all empires within a given radius of coordinates,
@@ -68,6 +76,7 @@ namespace SporeModUtils {
 		 * Fills the provided vector with the planets from the empire's systems, applying optional filters.
 		 * @param empire
 		 * @param planets The vector to be filled with planets matching the specified filters.
+		 * @param spiceCosts A map containing the cost of different spice types, used to filter planets with low-value spices.
 		 * @param excludeColonized If true, excludes planets that are already colonized by the empire.
 		 * @param excludeUncolonized If true, skips uncolonized planets.
 		 * @param excludeBlueRedOrbitWithLowValueSpice If true, excludes planets in blue or red orbits that have low-value spices.
@@ -80,7 +89,6 @@ namespace SporeModUtils {
 		 *
 		 * @param empire
 		 * @param planets The vector to be filled with planets that match the specified filters.
-		 * @param spiceCosts A map containing the cost of different spice types, used to filter planets with low-value spices.
 		 * @param excludeColonized If true, excludes planets that are already colonized by the empire.
 		 * @param excludeUncolonized If true, excludes uncolonized planets from the result.
 		 * @param excludeBlueRedOrbit If true, excludes planets in blue or red orbits from the result.

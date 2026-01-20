@@ -2,6 +2,7 @@
 #include "EmpireUtils.h"
 #include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
 #include <Spore-Mod-Utils/SpiceUtils/SpiceUtils.h>
+#include <Spore-Mod-Utils/StarUtils/StarUtils.h>
 namespace SporeModUtils {
     namespace EmpireUtils {
 
@@ -23,6 +24,19 @@ namespace SporeModUtils {
 			else {
 				return nullptr;
 			}
+		}
+
+		bool EmpireInRangeOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, float range){
+			for (cStarRecordPtr starEmpire1 : empire1->mStars) {
+				if (starEmpire1 !=  nullptr){
+					for (cStarRecordPtr starEmpire2 : empire2->mStars) {
+						if (starEmpire2 != nullptr && range > StarUtils::GetDistanceBetweenStars(starEmpire1.get(), starEmpire2.get()) ) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
 		}
 
         void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
@@ -51,7 +65,7 @@ namespace SporeModUtils {
 					empireSet.insert(starEmpire);
 				}
 			}
-			// Get the empire for every id.
+			// Get the empire from every id.
 			for (Simulator::cEmpire* empire : empireSet) {
 				empires.push_back(cEmpirePtr(empire));
 			}
