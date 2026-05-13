@@ -50,8 +50,8 @@ namespace SporeModUtils {
 				if (planet->GetTechLevel() == Simulator::TechLevel::Tribe) {
 					planet->mTechLevel = Simulator::TechLevel::Creature;
 					planet->mTribeData.clear();
+					break;
 				}
-				break;
 			}
 		}
 
@@ -67,8 +67,8 @@ namespace SporeModUtils {
 				if (planet->GetTechLevel() == Simulator::TechLevel::Civilization) {
 					planet->mTechLevel = Simulator::TechLevel::Creature;
 					planet->mCivData.clear();
+					break;
 				}
-				break;
 			}
 		}
 
