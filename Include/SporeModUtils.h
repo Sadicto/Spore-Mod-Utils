@@ -9,3 +9,7 @@
 #include "../TerraformingUtils/TerraformingUtils.h"
 
 #include "../SpiceUtils/SpiceUtils.h"
+
+#include "../DiplomacyUtils/DiplomacyUtils.h"
+
+#include "../ArchetypeUtils/ArchetypeUtils.h"

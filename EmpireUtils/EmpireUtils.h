@@ -23,6 +23,14 @@ namespace SporeModUtils {
 		 */
 		Simulator::cStarRecord* GetHomeStar(Simulator::cEmpire* empire);
 
+		/**
+		 * @brief checks whether the empire2 is within range of the empire1.
+		 * @param empire1
+		 * @param empire2
+		 * @return True if the empire is within range, false otherwise.
+		 */
+		bool EmpireInRangeOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, float range);
+
 
 		/**
 		 * @brief Retrieves all empires within a given radius of coordinates,
@@ -34,6 +42,25 @@ namespace SporeModUtils {
 		 * @param includeOtherSaves If set to `false`, empires from other savegames will not be included, even if found.
 		 */
 		void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
+
+		/**
+		 * @brief Retrieve ass empires within a range of a given empire,
+		 * @param empire the given empire.
+		 * @param range float representing the range around the empire in parcecs.
+		 * @param empires Vector to store the list of empires found within the range.
+		 * @param includePlayer If set to `false`, the player empire will not be included in the list of empires, even if found.
+		 * @param includeGrox If set to `false`, the Grox empire will not be included in the list of empires, even if found.
+		 * @param includeOtherSaves If set to `false`, empires from other savegames will not be included, even if found.
+		 */
+		void GetEmpiresInRangeOfEmpire(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empires, bool includePlayer = false, bool includeGrox = false, bool includeOtherSaves = false);
+
+		/**
+		 * @brief Gets the total number of systems owned by the given empire and a specified list of allied empires.
+		 * @param empire
+		 * @param allies The vector containing allied empires to include in the count.
+		 * @return The number of systems owned by the empire and its specified allies.
+		 */
+		int GetSystemCountWithAllies(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& allies);
 
 		/**
 		 * @brief Returns the power level of an empire.
@@ -49,6 +76,7 @@ namespace SporeModUtils {
 		 * Fills the provided vector with the planets from the empire's systems, applying optional filters.
 		 * @param empire
 		 * @param planets The vector to be filled with planets matching the specified filters.
+		 * @param spiceCosts A map containing the cost of different spice types, used to filter planets with low-value spices.
 		 * @param excludeColonized If true, excludes planets that are already colonized by the empire.
 		 * @param excludeUncolonized If true, skips uncolonized planets.
 		 * @param excludeBlueRedOrbitWithLowValueSpice If true, excludes planets in blue or red orbits that have low-value spices.
@@ -61,7 +89,6 @@ namespace SporeModUtils {
 		 *
 		 * @param empire
 		 * @param planets The vector to be filled with planets that match the specified filters.
-		 * @param spiceCosts A map containing the cost of different spice types, used to filter planets with low-value spices.
 		 * @param excludeColonized If true, excludes planets that are already colonized by the empire.
 		 * @param excludeUncolonized If true, excludes uncolonized planets from the result.
 		 * @param excludeBlueRedOrbit If true, excludes planets in blue or red orbits from the result.

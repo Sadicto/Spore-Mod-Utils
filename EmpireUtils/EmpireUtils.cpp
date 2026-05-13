@@ -2,6 +2,7 @@
 #include "EmpireUtils.h"
 #include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
 #include <Spore-Mod-Utils/SpiceUtils/SpiceUtils.h>
+#include <Spore-Mod-Utils/StarUtils/StarUtils.h>
 namespace SporeModUtils {
     namespace EmpireUtils {
 
@@ -23,6 +24,19 @@ namespace SporeModUtils {
 			else {
 				return nullptr;
 			}
+		}
+
+		bool EmpireInRangeOfEmpire(Simulator::cEmpire* empire1, Simulator::cEmpire* empire2, float range){
+			for (cStarRecordPtr starEmpire1 : empire1->mStars) {
+				if (starEmpire1 !=  nullptr){
+					for (cStarRecordPtr starEmpire2 : empire2->mStars) {
+						if (starEmpire2 != nullptr && range > StarUtils::GetDistanceBetweenStars(starEmpire1.get(), starEmpire2.get()) ) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
 		}
 
         void GetEmpiresInRadius(const Vector3& coords, float radius, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
@@ -51,11 +65,36 @@ namespace SporeModUtils {
 					empireSet.insert(starEmpire);
 				}
 			}
-			// Get the empire for every id.
+			// Get the empire from every id.
 			for (Simulator::cEmpire* empire : empireSet) {
 				empires.push_back(cEmpirePtr(empire));
 			}
         }
+
+		void GetEmpiresInRangeOfEmpire(Simulator::cEmpire* empire, float range, eastl::vector<cEmpirePtr>& empires, bool includePlayer, bool includeGrox, bool includeOtherSaves) {
+			eastl::set<cEmpirePtr> nearEmpiresSet;
+			for (cStarRecordPtr empireStar : empire->mStars) {
+				eastl::vector<cEmpirePtr> empiresAroundStar;
+				Vector3 starCoordinates = empireStar->mPosition;
+				GetEmpiresInRadius(starCoordinates, range, empiresAroundStar, true);
+				for (cEmpirePtr nearEmpire : empiresAroundStar) {
+					if (nearEmpire != empire && EmpireUtils::ValidNpcEmpire(nearEmpire.get(), includePlayer, includeGrox, includeOtherSaves)) {
+						nearEmpiresSet.insert(nearEmpire);
+					}
+				}
+			}
+			for (cEmpirePtr empire : nearEmpiresSet) {
+				empires.push_back(empire);
+			}
+		}
+
+		int GetSystemCountWithAllies(Simulator::cEmpire* empire, eastl::vector<cEmpirePtr>& allies) {
+			int systemCount = empire->mStars.size();
+			for (cEmpirePtr ally : allies) {
+				systemCount += ally->mStars.size();
+			}
+			return systemCount;
+		}
 
 		int GetEmpireLevel(Simulator::cEmpire* empire) {
 			empire->field_D8 = -1;
@@ -88,5 +127,5 @@ namespace SporeModUtils {
 			}
 			GetEmpirePlanets(empire, planets, spiceCosts, excludeColonized, excludeUncolonized, excludeBlueRedOrbit, excludeBlueRedOrbitWithLowValueSpice, excludeT0);
 		}
-    }
+	}
 }

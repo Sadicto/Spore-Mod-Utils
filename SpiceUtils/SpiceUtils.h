@@ -39,6 +39,14 @@ namespace SporeModUtils {
 		float GetSpiceBaseCost(ResourceKey spiceKey);
 
 		/**
+		 * @brief Returns the base cost of the given spice.
+		 * @param spiceKey The ResourceKey of the spice.
+		 * @param spiceCosts A map containing the cost associated with each spice.
+		 * @return The base cost of the spice, or 0 if the spice is not valid.
+		 */
+		float GetSpiceBaseCost(ResourceKey spiceKey, const eastl::map<ResourceKey, float>& spiceCosts);
+
+		/**
 		 * @brief Fills the given map with the base costs of all spices.
 		 * Iterates through all available spices and adds each one to the map along with its base cost.
 		 * The key is the spice resource, and the value is its base cost.
