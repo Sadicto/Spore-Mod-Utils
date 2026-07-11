@@ -19,6 +19,10 @@ namespace SporeModUtils {
 			return false;
 		}
 
+		bool PlanetHasWildlifeSanctuary(Simulator::cPlanetRecord* planet){
+			return (planet->mFlags &(1 << 11)) != 0;;
+		}
+
 		bool Homeworld(Simulator::cPlanetRecord* planet) {
 			Simulator::cEmpire* empire = StarManager.GetEmpire(planet->GetStarRecord()->mEmpireID);
 			return empire != nullptr && empire->mHomePlanet == planet->GetID();

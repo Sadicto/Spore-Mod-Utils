@@ -18,6 +18,13 @@ namespace SporeModUtils {
 		bool InteractablePlanet(Simulator::cPlanetRecord* planet);
 
 		/**
+		 * @brief Checks whether the planet has a Wildlife Sanctuary.
+		 * @param planet
+		 * @return true if the planet contains a Wildlife Sanctuary, false otherwise.
+		 */
+		bool PlanetHasWildlifeSanctuary(Simulator::cPlanetRecord* planet);
+
+		/**
 		 * Returns true if the given planet is the homeworld of an empire.
 		 * @param planet
 		 * @return True if it is a homeworld, false otherwise.
