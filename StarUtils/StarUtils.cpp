@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "StarUtils.h"
+#include <EASTL/sort.h>
 #include <Spore-Mod-Utils/PlanetUtils/PlanetUtils.h>
 namespace SporeModUtils {
     namespace StarUtils {
@@ -97,6 +98,89 @@ namespace SporeModUtils {
 
 		float GetDistanceBetweenStars(Simulator::cStarRecord* star1, Simulator::cStarRecord* star2) {
 			return (star1->mPosition - star2->mPosition).Length();
+		}
+
+		Simulator::cStarRecord* GetClosestStarToStar(Simulator::cStarRecord* star, float searchRadius, bool atLeastOneInteractablePlanet, bool notSol, bool noMonolith, bool noSavegame, bool noPotentialSavegame){
+			eastl::vector<cStarRecordPtr> closestStars;
+			GetClosestStarsToStar(star, 1, closestStars, searchRadius, atLeastOneInteractablePlanet, notSol, noMonolith, noSavegame, noPotentialSavegame);
+			if (!closestStars.empty()) {
+				return closestStars[0].get();
+			}
+			else {
+				return nullptr;
+			}
+		}
+
+		void GetClosestStarsToStar(
+			Simulator::cStarRecord* star,
+			int maxCount,
+			eastl::vector<cStarRecordPtr>& closestStars,
+			float searchRadius,
+			bool atLeastOneInteractablePlanet,
+			bool notSol,
+			bool noMonolith,
+			bool noSavegame,
+			bool noPotentialSavegame){
+
+			Simulator::StarRequestFilter filter;
+			filter.RemoveStarType(Simulator::StarType::None);
+			filter.RemoveStarType(Simulator::StarType::GalacticCore);
+			filter.RemoveStarType(Simulator::StarType::ProtoPlanetary);
+			filter.RemoveStarType(Simulator::StarType::BlackHole);
+			filter.minDistance = 0;
+
+			eastl::vector<eastl::pair<float, cStarRecordPtr>> starsWithDistance;
+			eastl::set<cStarRecordPtr> alreadyFound;
+
+			float currentSearchRadius = min(3.0f, searchRadius);
+
+			while (currentSearchRadius <= searchRadius && (int)alreadyFound.size() < maxCount){
+				filter.maxDistance = currentSearchRadius;
+				eastl::vector<cStarRecordPtr> nearbyStars;
+				StarManager.FindStars(star->mPosition, filter, nearbyStars);
+				for (const cStarRecordPtr& nearbyStar : nearbyStars){
+
+					if (nearbyStar == star) {
+						continue;
+					}
+
+					if (!ValidStar(
+						nearbyStar.get(),
+						atLeastOneInteractablePlanet,
+						notSol,
+						noMonolith,
+						noSavegame,
+						noPotentialSavegame)){
+						continue;
+					}
+
+					// Duplicate check.
+					if (!alreadyFound.insert(nearbyStar).second) {
+						continue;
+					}
+
+					float distance = GetDistanceBetweenStars(star, nearbyStar.get());
+
+					starsWithDistance.push_back({ distance, nearbyStar });
+				}
+				currentSearchRadius += 2.0f;
+			}
+
+			// Sort the vector from smallest distance to largest distance.
+			eastl::sort(
+				starsWithDistance.begin(),
+				starsWithDistance.end(),
+				[](const auto& a, const auto& b)
+				{
+					return a.first < b.first;
+				});
+
+			int count = min(maxCount, (int)starsWithDistance.size());
+
+			for (int i = 0; i < count; i++)
+			{
+				closestStars.push_back(starsWithDistance[i].second);
+			}
 		}
     }
 }

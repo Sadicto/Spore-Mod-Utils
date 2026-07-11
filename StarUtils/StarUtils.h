@@ -55,6 +55,10 @@ namespace SporeModUtils {
 		 */
 		float GetDistanceBetweenStars(Simulator::cStarRecord* star1, Simulator::cStarRecord* star2);
 
+		Simulator::cStarRecord* GetClosestStarToStar(Simulator::cStarRecord* star, float searchRadius = 5.0f, bool atLeastOneInteractablePlanet = true, bool notSol = true, bool noMonolith = true, bool noSavegame = true, bool noPotentialSavegame = true);
+
+		void GetClosestStarsToStar(Simulator::cStarRecord* star, int maxCount, eastl::vector<cStarRecordPtr>& closestStars, float searchRadius = 5.0f, bool atLeastOneInteractablePlanet = true, bool notSol = true, bool noMonolith = true, bool noSavegame = true, bool noPotentialSavegame = true);
+
 
     }
 }
